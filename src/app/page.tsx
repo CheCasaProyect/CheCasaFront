@@ -5,18 +5,21 @@ import { accommodations } from './utilities/accommodations';
 export default function Home() {
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-8">
-      {accommodations.map((accommodation) => (
-        <CardAccommodation
-          key={accommodation.id}  
-          id={accommodation.id}    
-          title={accommodation.title}
-          description={accommodation.description}
-          price={accommodation.price}
-          image={accommodation.image}
-        />
-    ))}
-  </div>
+<div className="Home flex flex-wrap justify-center gap-5 p-8"> {/* Usar flex y justify-center */}
+  {accommodations.map((accommodation) => (
+    <CardAccommodation
+      key={accommodation.id}
+      id={accommodation.id}
+      title={accommodation.title}
+      description={accommodation.description}
+      price={accommodation.price}
+      image={accommodation.image}
+    />
+  ))}
+</div>
+
+
+      
     </>
   );
 }
