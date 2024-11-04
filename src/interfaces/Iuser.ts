@@ -6,4 +6,5 @@ export default interface IUser {
     phone: string;
     email: string;
     id: string;
+    profileImgUrl: string;
   }

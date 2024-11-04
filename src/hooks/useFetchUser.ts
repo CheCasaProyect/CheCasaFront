@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useAuthStore } from '../store/authStore'; 
+import  useAuthStore  from '../store/authStore'; 
 import IUser from '../interfaces/Iuser';
 
 const useFetchUser = () => {
@@ -7,13 +7,15 @@ const useFetchUser = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const token = useAuthStore((state) => state.token);
-  const authUser = useAuthStore((state) => state.user); 
+  const token = useAuthStore((state: { token: any; }) => state.token);
+  const authUser = useAuthStore((state: { user: any; }) => state.user); 
 
   useEffect(() => {
     if (!token || !authUser?.id) return; 
 
     const fetchUser = async () => {
+      console.log("Token:", token);
+      console.log("Auth User ID:", authUser.id);
       try {
         const response = await fetch(`https://proyectochecasa.onrender.com/users/${authUser.id}`, {
           method: 'GET',
@@ -36,6 +38,7 @@ const useFetchUser = () => {
         }
 
         const data: IUser = await response.json();
+        console.log("User data:", data);
         setUser(data);
       } catch (err: any) {
         setError(err.message || 'No se pudo obtener la información del usuario.');

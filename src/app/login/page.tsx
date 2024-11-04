@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import React, { useEffect, useState } from "react";
 import Image from 'next/image';
 import Link from "next/link";
-import { useAuthStore } from "@/store/authStore";
+import useAuthStore  from "@/store/authStore";
 import { auth, provider } from "../../firebaseConfig";
 import { getRedirectResult, signInWithPopup, signInWithRedirect } from "firebase/auth";
 import { useAuth } from "../../hooks/useLogin";

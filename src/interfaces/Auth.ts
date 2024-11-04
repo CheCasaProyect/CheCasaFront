@@ -11,4 +11,6 @@ export default interface IAuthState {
     setSuccessMessage: (message: string) => void;
     clearMessages: () => void;
     resetForm: () => void;
+    loginUser: (email: string, password: string) => Promise<void>;
+    logoutUser: () => void;
   }

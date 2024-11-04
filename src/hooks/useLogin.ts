@@ -1,7 +1,7 @@
 "use client"
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { useAuthStore } from "../store/authStore";
+import useAuthStore from "@/store/authStore";
 import { useRouter } from "next/navigation";
 
 interface LoginValues {

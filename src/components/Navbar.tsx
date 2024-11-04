@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useAuthStore } from '@/store/authStore';
+import  useAuthStore  from '@/store/authStore';
 
 interface NavbarProps {
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>;

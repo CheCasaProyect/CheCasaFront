@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAuthStore } from "@/store/authStore";
+import useAuthStore  from "@/store/authStore";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 
