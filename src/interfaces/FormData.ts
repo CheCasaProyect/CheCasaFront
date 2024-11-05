@@ -8,5 +8,5 @@ export default interface IFormData {
   capacity: any;           
   bedrooms: number;          
   bathrooms: number;         
-  photos: File[];             
+  photos: string[];             
 }

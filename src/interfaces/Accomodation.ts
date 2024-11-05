@@ -4,7 +4,7 @@ export default interface IAccommodation {
     provincia: string;
     description: string;
     price: number;
-    photos: string;
+    photos: string[];
     latitude: any;
     longitude: any;
     stripePriceId: any;
