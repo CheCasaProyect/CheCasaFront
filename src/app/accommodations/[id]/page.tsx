@@ -50,10 +50,14 @@ const AccommodationDetail = ({ params }: { params: Promise<Params> }) => {
       <h1 className="text-4xl font-bold text-gray-900 mb-4">{accommodation.title}</h1>
   
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-        <img src={accommodation.photos} alt={accommodation.title} className="col-span-2 sm:col-span-2 lg:col-span-3 rounded-lg object-cover" />
-        <img src={accommodation.photos} alt="secondary image" className="rounded-lg object-cover" />
-        <img src={accommodation.photos} alt="secondary image" className="rounded-lg object-cover" />
-        <img src={accommodation.photos} alt="secondary image" className="rounded-lg object-cover" />
+        {accommodation.photos.map((photos, index) => (
+          <img
+            key={index}
+            src={photos}
+            alt={`${accommodation.title} photo ${index + 1}`} // Corrección aquí
+            className="rounded-lg object-cover"
+          />
+        ))}
       </div>
   <div className="flex flex-col sm:flex-row justify-between items-center">
         <div>
