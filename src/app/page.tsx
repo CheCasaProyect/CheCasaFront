@@ -22,7 +22,7 @@ export default function Home() {
     fetchAccommodations();
   }, []);
 
-  // Filtrar las propiedades según el término de búsqueda
+
   const filteredAccommodations = accommodations.filter(accommodation => 
     accommodation.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     accommodation.description.toLowerCase().includes(searchTerm.toLowerCase())
