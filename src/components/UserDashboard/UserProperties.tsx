@@ -53,7 +53,6 @@
 import React, { useEffect, useState } from "react";
 import { IPropiedad } from "../../interfaces/Properties";
 import RentPropertyForm from "../../app/RentPropertyForm/page";
-import { auth } from "../../firebaseConfig";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 interface MyPropertiesProps {}
@@ -63,18 +62,6 @@ const MyProperties: React.FC<MyPropertiesProps> = () => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
 
-  useEffect(() => {
-    if(auth){
-      const unsubscribe = onAuthStateChanged(auth, (user) => {
-        if (user) {
-          setUserId(user.uid);
-        } else {
-          setUserId(null);
-        }
-      });
-      return () => unsubscribe();
-    }
-  }, []);
 
   useEffect(() => {
     if (userId) {

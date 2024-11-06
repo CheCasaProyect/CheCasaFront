@@ -4,7 +4,7 @@ import DatePickerComponent from '@/components/Calendar';
 import PaymentButton from '@/components/PaymentButton';
 import IAccommodation from '../../../interfaces/Accomodation';
 import dynamic from 'next/dynamic';
-import { use } from 'react'; // Importa use de React
+import { use } from 'react'; 
 
 const Map = dynamic(() => import('../../map/cheMap'));
 
@@ -17,11 +17,11 @@ const AccommodationDetail = ({ params }: { params: Promise<Params> }) => {
   const [loading, setLoading] = useState(true);
   const [accommodation, setAccommodation] = useState<IAccommodation | null>(null);
 
-  const unwrappedParams = use(params); // Desenvuelve params aquí
+  const unwrappedParams = use(params); 
 
   useEffect(() => {
     const fetchAccommodation = async () => {
-      if (!unwrappedParams) return; // Asegúrate de que params esté disponible
+      if (!unwrappedParams) return; 
 
       try {
         const response = await fetch(`http://localhost:3001/properties/${unwrappedParams.id}`);
