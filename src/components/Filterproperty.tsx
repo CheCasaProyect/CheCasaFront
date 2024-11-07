@@ -15,7 +15,7 @@ const PropertyFilter = () => {
          checkOutDate,
          guests
       });
-      // Lógica para realizar la búsqueda de propiedades aquí
+      
    };
 
    return (

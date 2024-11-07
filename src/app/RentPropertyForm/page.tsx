@@ -1,6 +1,7 @@
 "use client";
 import IFormData from '@/interfaces/FormData';
 import React, { useState, useEffect } from 'react';
+import { string } from 'yup';
 
 const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/dddh5wrx3/image/upload";
 const UPLOAD_PRESET = "ml_default";
@@ -24,38 +25,38 @@ const PropertyForm: React.FC = () => {
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const files = Array.from(e.target.files);
-      const uploadedPhotos: any[] = [];
-
+      const uploadedPhotos: string[] = [];
+  
       for (const file of files) {
         const uploadData = new FormData();
         uploadData.append("file", file);
         uploadData.append("upload_preset", UPLOAD_PRESET);
-
+  
         try {
           const response = await fetch(CLOUDINARY_URL, {
             method: "POST",
             body: uploadData,
           });
-          console.log("URLs de fotos subidas:", uploadedPhotos);
-          
+  
           if (!response.ok) {
             throw new Error("Failed to upload image.");
           }
-
+  
           const data = await response.json();
+          console.log(data);
           uploadedPhotos.push(data.secure_url);
-          console.log("Estado de fotos después de la actualización:", uploadedPhotos);
+          console.log(data.secure_url)
         } catch (error) {
           console.error("Error uploading image:", error);
           setErrorMessage("Upload error: " + (error instanceof Error ? error.message : "Unknown error"));
         }
       }
-
-      // Actualiza el estado con todas las fotos subidas
+  
       setFormData((prevData) => ({
         ...prevData,
         photos: [...prevData.photos, ...uploadedPhotos],
       }));
+      console.log("Photos after update:", formData.photos)
       setErrorMessage("");
     }
   };
@@ -75,7 +76,7 @@ const PropertyForm: React.FC = () => {
   
     const propertyData = new FormData(e.target as HTMLFormElement);
     const updata = Object.fromEntries(propertyData);
-    console.log("Datos enviados:", updata);
+    
 
     try {
       const response = await fetch("http://localhost:3001/properties", {
@@ -213,8 +214,8 @@ const PropertyForm: React.FC = () => {
         {errorMessage && <p className="text-red-500">{errorMessage}</p>}
         Muestra las fotos subidas
         <div className="mt-2">
-          {formData.photos.map((photo, index) => (
-            <img key={index} alt={`Foto ${index + 1}`} className="w-24 h-24 object-cover mb-2" />
+          {formData.photos.map((uploadedPhotos, index) => (
+           <img key={index} src={uploadedPhotos} alt={`Foto ${index + 1}`} className="w-24 h-24 object-cover mb-2" />
           ))}
         </div>
       </div>
