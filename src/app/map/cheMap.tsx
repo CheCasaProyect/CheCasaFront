@@ -17,17 +17,19 @@ L.Icon.Default.mergeOptions({
 
 const Map: React.FC<MapProps> = ({ latitude, longitude }) => {
     useEffect(() => {
-
+     
       const map = L.map("map").setView([latitude, longitude], 13);
-
+  
       L.tileLayer(
-        "https://{s}.tile.openstreetmap.de/%7Bz%7D/%7Bx%7D/%7By%7D.png",
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+
         {
           attribution: "&copy; OpenStreetMap contributors",
         }
       ).addTo(map);
-
+  
       L.marker([latitude, longitude]).addTo(map).bindPopup("Ubicación de la propiedad");
+      
 
       return () => {
         map.remove();

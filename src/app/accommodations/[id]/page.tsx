@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
 import IAccommodation from "../../../interfaces/Accomodation";
 import dynamic from "next/dynamic";
@@ -17,10 +18,12 @@ const AccommodationDetail = ({ params }: { params: Promise<Params> }) => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [accommodation, setAccommodation] = useState<IAccommodation | null>(null);
+
   const router = useRouter(); // Hook para manejar la redirección
 
   useEffect(() => {
     const fetchAccommodation = async () => {
+
       try {
         const response = await fetch(
           `http://localhost:3001/properties/${unwrappedParams.id}`

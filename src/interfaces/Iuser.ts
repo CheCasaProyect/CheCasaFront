@@ -7,4 +7,6 @@ export default interface IUser {
     email: string;
     id: string;
     profileImgUrl: string;
+    registeredAt: string;
+    active: boolean;
   }

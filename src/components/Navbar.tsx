@@ -5,7 +5,9 @@ import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/authStore';
 import FilterProperties from './Filterproperty';
 
+
 const Navbar: React.FC = () => {
+
   const router = useRouter();
   const { user, resetForm } = useAuthStore();
   const [userData, setUserData] = useState(user);
@@ -13,6 +15,7 @@ const Navbar: React.FC = () => {
   useEffect(() => {
     setUserData(user);
   }, [user]);
+
 
   const handleLogout = () => {
     resetForm();

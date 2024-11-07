@@ -18,6 +18,7 @@
 //   app = initializeApp(firebaseConfig);
 // }
 
+
 // export const auth = app ? getAuth(app) : null;
 // export const provider = new GoogleAuthProvider();
 
@@ -45,4 +46,7 @@
 // export const auth = app ? getAuth(app) : null;
 // export const provider = new GoogleAuthProvider();
 // const app = initializeApp(firebaseConfig);
+export const auth = app ? getAuth(app) : null;
+export const provider = new GoogleAuthProvider();
+
 

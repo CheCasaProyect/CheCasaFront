@@ -1,16 +1,25 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-      domains: ['i.postimg.cc'], 
+    domains: ['i.postimg.cc'],
   },
-//   async rewrites() {
-//       return [
-//           {
-//               source: '/auth/:path*', 
-//               destination: 'https://proyectochecasa.onrender.com/auth/:path*', 
-//           },
-//       ];
-//   },
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'Cross-Origin-Opener-Policy',
+            value: 'same-origin-allow-popups', 
+          },
+          {
+            key: 'Cross-Origin-Embedder-Policy',
+            value: 'require-corp', 
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;

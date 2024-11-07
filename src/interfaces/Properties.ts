@@ -7,6 +7,7 @@ export interface IPropiedad {
   active: boolean;
   title: string;
   description: string;
+
   state?: string;        
   city?: string;            
   price?: number[];          
