@@ -9,8 +9,6 @@ interface PropertyDetailProps {
     price: number;
     image: string;
     provincia: string;
-    stripeProductId: string;
-    stripePriceId: string;
   };
   userId: number;
 }
@@ -23,8 +21,6 @@ const PropertyDetail: React.FC<PropertyDetailProps> = ({ property, userId }) => 
       <p>{property.description}</p>
       <p className="text-lg font-semibold text-green-600">Ubicación: {property.provincia}</p>
       <p className="text-xl font-bold">Precio: ${property.price}</p>
-
-      <PaymentButton propertyId={property.id} stripeProductId={property.stripeProductId}  stripePriceId={property.stripePriceId} price={property.price}/>
     </div>
   );
 };

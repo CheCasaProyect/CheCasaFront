@@ -5,7 +5,7 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import PaymentComponent from '@/components/PaymentButton';
 
-// Asegúrate de reemplazar 'your_public_key' con tu clave pública de Stripe
+
 const stripePromise = loadStripe('your_public_key');
 
 const PaymentPage = () => {
