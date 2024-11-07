@@ -1,38 +1,46 @@
-"use client"; 
+import { loadStripe } from '@stripe/stripe-js';
+import React, { useState } from 'react';
+import { IPropiedad } from '@/interfaces/Properties';
 
-import React from 'react';
+const stripePromise = loadStripe('your-public-stripe-key'); // Clave pública de Stripe
 
-interface PaymentButtonProps {
-  propertyId: any;
-  stripeProductId: any;
-  stripePriceId: any;
-  price: number;
- 
+interface propertyStripeProps {
+  property: IPropiedad; 
 }
 
-const PaymentButton: React.FC<PaymentButtonProps> = ({ stripeProductId , stripePriceId, price, propertyId}) => {
- console.log( stripeProductId ,stripePriceId );
-  const handlePayment = async () => {
-    if (!stripeProductId || !stripePriceId) {
-      console.error('stripeProductId o stripePriceId están vacíos');
+const PaymentButton: React.FC<propertyStripeProps> = ({ property }) => {
+  const [checkIn, setCheckIn] = useState<string | null>(null);
+  const [checkOut, setCheckOut] = useState<string | null>(null);
+
+  if (!property) {
+    return <div className='text-black'>No se ha proporcionado una propiedad válida.</div>;
+  }
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    const stripe = await stripePromise;
+    if (!stripe) {
+      console.error('Error al cargar Stripe');
       return;
     }
+
     try {
-      const response = await fetch('http://localhost:3002/stripe/testingPayments', {
+      const response = await fetch('http://localhost:3001/stripe/testingPayments', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          stripePriceId: stripePriceId,
-          stripeProductId:  stripeProductId
-
+          property,
+          checkIn,
+          checkOut,
         }),
       });
 
       const data = await response.json();
       if (data.url) {
-        window.location.href = data.url; 
+        window.location.href = data.url;
       } else {
         console.error('Error al obtener la URL de pago:', data);
       }
@@ -41,14 +49,31 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({ stripeProductId , stripeP
     }
   };
 
+
   return (
-    <button
-      onClick={handlePayment}
-      className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
-    >
-      Reservar ahora por ${price}
-    </button>
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label>Check In</label>
+        <input 
+          type="date" 
+          value={checkIn || ""} // Usa una cadena vacía si checkIn es null
+          onChange={(e) => setCheckIn(e.target.value)} 
+          required 
+        />
+      </div>
+      <div>
+        <label>Check Out</label>
+        <input 
+          type="date" 
+          value={checkOut || ""} // Usa una cadena vacía si checkOut es null
+          onChange={(e) => setCheckOut(e.target.value)} 
+          required 
+        />
+      </div>
+      <button type="submit">Pagar con Stripe</button>
+    </form>
   );
-};
+}
+
 
 export default PaymentButton;

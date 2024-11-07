@@ -4,8 +4,8 @@ import L from 'leaflet';
 import { useEffect } from 'react';
 
 interface MapProps {
-    latitude: any;
-    longitude: any;
+    latitude: number;
+    longitude: number;
 }
 
 L.Icon.Default.mergeOptions({
@@ -22,6 +22,7 @@ const Map: React.FC<MapProps> = ({ latitude, longitude }) => {
   
       L.tileLayer(
         "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+
         {
           attribution: "&copy; OpenStreetMap contributors",
         }
@@ -29,11 +30,12 @@ const Map: React.FC<MapProps> = ({ latitude, longitude }) => {
   
       L.marker([latitude, longitude]).addTo(map).bindPopup("Ubicación de la propiedad");
       
+
       return () => {
         map.remove();
       };
     }, [latitude, longitude]);
-  
+
     return <div id="map" style={{ height: "350px", width: "100%" }} />;
   };
 

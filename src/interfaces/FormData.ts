@@ -8,5 +8,8 @@ export default interface IFormData {
   capacity: any;           
   bedrooms: number;          
   bathrooms: number;         
-  photos: string[];             
+  photos: string[];
+  street: string
+  number: number
+  postalCode: string            
 }

@@ -8,7 +8,7 @@ export const useAuthStore = create<IAuthState>((set) => {
   if (savedToken) {
     set({ token: savedToken });
 
-    fetch("https://proyectochecasa.onrender.com/user-profile-endpoint", {
+    fetch("http://localhost:3000/users/{id}", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${savedToken}`,
@@ -38,7 +38,9 @@ export const useAuthStore = create<IAuthState>((set) => {
       }),
     loginUser: async (email: string, password: string) => {
       try {
-        const response = await fetch("https://proyectochecasa.onrender.com/login", {
+
+        const response = await fetch("http://localhost:3000/auth/login", {
+
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -53,9 +55,15 @@ export const useAuthStore = create<IAuthState>((set) => {
         const data = await response.json();
         const { token } = data;
 
+        const userData = await response.json();
+        set({ user: userData });
+
+        localStorage.setItem("user", JSON.stringify(userData));
+
         set({ token, error: "", successMessage: "Inicio de sesión exitoso" });
 
         localStorage.setItem("token", token);
+        localStorage.setItem("user", userData);
       } catch (error: any) {
         set({ error: error.message || "Error en el inicio de sesión", successMessage: "" });
       }
@@ -67,7 +75,7 @@ export const useAuthStore = create<IAuthState>((set) => {
   };
 });
 
-// export default useAuthStore;
+export default useAuthStore;
 
 
 

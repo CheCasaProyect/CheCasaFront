@@ -6,7 +6,7 @@ import { useRegister } from "@/hooks/useRegister";
 import { useState } from "react";
 import Link from "next/link";
 
-const Register = () => {
+const register = () => {
   const { registerUser, localError } = useRegister();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -26,7 +26,7 @@ const Register = () => {
     email: Yup.string().email("Formato de email inválido").required("Email es obligatorio"),
     password: Yup.string()
       .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,15}$/,
+        /^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[!@#$%^&])[A-Za-z\d!@#$%^&]{8,15}$/,
         "La contraseña debe contener entre 8 y 15 caracteres, al menos una mayúscula, una minúscula, un número y un carácter especial (!@#$%^&*)"
       )
       .required("Contraseña es obligatoria"),
@@ -188,4 +188,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default register;
