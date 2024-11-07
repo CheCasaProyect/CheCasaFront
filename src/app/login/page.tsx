@@ -28,7 +28,7 @@ const Login = () => {
       .required("Email es obligatorio"),
     password: Yup.string()
       .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,15}$/,
+        /^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[!@#$%^&])[A-Za-z\d!@#$%^&]{8,15}$/,
         "Debe contener entre 8 y 15 caracteres, una mayúscula, una minúscula, un número y un carácter especial"
       )
       .required("Contraseña es obligatoria"),
@@ -42,6 +42,10 @@ const Login = () => {
       setSubmitting(false);
       if (successMessage) {
         resetForm();
+
+    }
+  };
+  
     }
   };
   const signInWithGoogle = async (e: React.MouseEvent) => {
@@ -93,6 +97,7 @@ const Login = () => {
       }
     }
   };
+
       
   
 
@@ -209,10 +214,10 @@ const Login = () => {
           )}
         </Formik>
 
-        <button onClick={signInWithGoogle} className="flex items-center justify-center w-full border border-[#0a0a0a] text-[#0a0a0a] text-sm py-2 bg-[#f8f9fa] rounded-md hover:bg-[#efefe9] transition duration-300">
+        {/* <button onClick={signInWithGoogle} className="flex items-center justify-center w-full border border-[#0a0a0a] text-[#0a0a0a] text-sm py-2 bg-[#f8f9fa] rounded-md hover:bg-[#efefe9] transition duration-300">
           <Image src="https://i.postimg.cc/kX92B8Gx/images-Photoroom.png" alt="Google Logo" width={24} height={24} className="mr-2" />
           Inicia sesión con Google
-        </button>
+        </button> */}
 
         <div className="text-center mt-4">
           <p className="text-sm">
@@ -438,3 +443,4 @@ export default Login;
 // };
 
 // export default Login;
+

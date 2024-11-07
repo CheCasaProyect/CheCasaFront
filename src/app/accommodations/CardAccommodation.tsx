@@ -15,25 +15,24 @@ const CardAccommodation: React.FC<IAccommodation> = ({ id, title, description, p
  
   return (
     <div
-      className="col w-60 h-80 cursor-pointer"
+      className="relative isolate flex flex-col justify-end overflow-hidden rounded-2xl px-8 pb-8 pt-40 max-w-sm mx-auto mt-24 cursor-pointer"
       onClick={handleCardClick}
     >
-      <div className="container relative w-full h-full transition-transform duration-700 perspective-1000">
-        <div
-          className="front absolute inset-0 w-full h-full bg-cover rounded-3xl"
-          style={{ backgroundImage: `url(${photos.length > 0 ? photos[0] : ''})` }}>
-
-          <div className="inner flex items-center justify-center h-full">
-            <p className="text-white font-bold text-2xl">{title}</p>
-            <span className="text-white">{description}</span>
-          </div>
-        </div>
-        <div className="back absolute inset-0 w-full h-full bg-gray-800 text-white rounded-3xl transform rotateY-180">
-          <div className="inner flex items-center justify-center h-full p-4">
-            <p className="text-center">{description}</p>
-          </div>
-        </div>
-      </div>
+      
+      {photos && (
+        <img
+          src={Array.isArray(photos) ? photos[0] : photos}
+          alt={title}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      )}
+     
+      <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40"></div>
+      
+      <h3 className="z-10 mt-3 text-3xl font-bold text-white">{title}</h3>
+      
+      <div className="z-10 text-sm leading-6 text-gray-300">{description}</div>
+      <div className="z-10 text-sm leading-6 text-gray-300">${price}</div>
     </div>
   );
 };

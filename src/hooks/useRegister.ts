@@ -88,5 +88,5 @@ export const useRegister = () => {
     }
   };
 
-  return { registerUser, localError };
+  return { registerUser, localError };
 };

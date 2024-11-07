@@ -41,7 +41,7 @@ const Footer = () => {
               />
               <button
                 type="submit"
-                className="inline-flex items-center justify-center h-12 px-6 font-semibold tracking-wide text-white transition duration-200 rounded-lg shadow-md bg-indigo-500 hover:bg-indigo-600 focus:shadow-outline focus:outline-none"
+                className="inline-flex items-center justify-center h-12 px-6 font-semibold tracking-wide text-white transition duration-200 rounded-lg shadow-md bg-black hover:bg-black focus:shadow-outline focus:outline-none"
               >
                 Suscribirse
               </button>

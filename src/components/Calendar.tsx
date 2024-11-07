@@ -3,17 +3,20 @@ import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { addDays } from 'date-fns';
-import Link from 'next/link';
 
-const  DatePickerComponent = () =>{
+interface DatePickerProps {
+  onCheckInChange: (date: string | null) => void;
+  onCheckOutChange: (date: string | null) => void;
+}
 
+const DatePickerComponent: React.FC<DatePickerProps> = ({ onCheckInChange, onCheckOutChange }) => {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [error, setError] = useState<string>("");
-  const [successMessage, setSuccessMessage] = useState<string>("");
 
   const handleStartDateChange = (date: Date | null) => {
     setStartDate(date);
+    onCheckInChange(date ? date.toISOString() : null); 
     if (date && endDate && date > endDate) {
       setEndDate(null); 
     }
@@ -21,36 +24,7 @@ const  DatePickerComponent = () =>{
 
   const handleEndDateChange = (date: Date | null) => {
     setEndDate(date);
-  };
-
-  const handleSubmit = () => {
-    if (!startDate || !endDate) {
-      setError("Por favor, selecciona ambas fechas.");
-      return;
-    }
-
-    setError(""); 
-    setSuccessMessage(""); 
-
-    fetch("http://localhost:3002/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ startDate, endDate }), 
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error("Error al enviar las fechas.");
-        }
-        return response.json();
-      })
-      .then(() => {
-        setSuccessMessage("Fechas enviadas exitosamente.");
-      })
-      .catch(err => {
-        setError(err instanceof Error ? err.message : "Error desconocido.");
-      });
+    onCheckOutChange(date ? date.toISOString() : null); 
   };
 
   return (
@@ -83,13 +57,7 @@ const  DatePickerComponent = () =>{
           />
         </div>
       </div>
-      <Link href="/payment" >
-      <button onClick={handleSubmit} className="mt-4 bg-blue-500 text-white py-2 px-4 rounded">
-        Enviar Fechas
-      </button>
-      </Link>
       {error && <div className="text-red-500">{error}</div>}
-      {successMessage && <div className="text-green-500">{successMessage}</div>}
     </div>
   );
 };

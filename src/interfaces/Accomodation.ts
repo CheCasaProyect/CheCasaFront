@@ -1,12 +1,12 @@
 export default interface IAccommodation {
     id?: number;  
     title: string;
-    provincia: string;
+    provincia?: string;
     description: string;
     price: number;
     photos: string[];
-    latitude: any;
-    longitude: any;
+    latitude: number;
+    longitude: number;
     stripePriceId: any;
     stripeProductId:any;
   }
