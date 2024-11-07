@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import Image from 'next/image';
 import Link from "next/link";
 import {useAuthStore} from "@/store/authStore";
-import { auth, provider } from "../../firebaseConfig"
+// import { auth, provider } from "../../firebaseConfig"
 import { getRedirectResult, signInWithPopup, signInWithRedirect } from "firebase/auth";
 import { useAuth } from "../../hooks/useLogin";
 import Swal from "sweetalert2";
@@ -44,55 +44,55 @@ const Login = () => {
         resetForm();
     }
   };
-  const signInWithGoogle = async (e: React.MouseEvent) => {
-    e.preventDefault();
-    if(auth){
-      try {
-        const result = await signInWithPopup(auth, provider);
-        const token = await result.user.getIdToken();
-        const sendSuccess = await sendTokenToBackend(token);
-        console.log('Token:', token);
-        if (sendSuccess) {
-          Swal.fire({
-            icon: "success",
-            title: "Token enviado exitosamente",
-            text: "¡Todo está listo!",
-          });
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Error al enviar el token",
-            text: error,
-          });
-        }
-      } catch (error: unknown) {
-        if (error instanceof FirebaseError) {
-          if (error.code === 'auth/popup-closed-by-user') {
-            console.warn('La ventana emergente fue cerrada por el usuario.');
-            Swal.fire({
-              icon: "warning",
-              title: "Ventana cerrada",
-              text: "Has cerrado la ventana emergente antes de completar el inicio de sesión.",
-            });
-          } else {
-            console.error('Error de autenticación:', error);
-            Swal.fire({
-              icon: "error",
-              title: "Error de autenticación",
-              text: error.message,
-            });
-          }
-        } else {
-          console.error('Error desconocido:', error);
-          Swal.fire({
-            icon: "error",
-            title: "Error desconocido",
-            text: "Ha ocurrido un error inesperado.",
-          });
-        }
-      }
-    }
-  };
+  // const signInWithGoogle = async (e: React.MouseEvent) => {
+  //   e.preventDefault();
+  //   if(auth){
+  //     try {
+  //       const result = await signInWithPopup(auth, provider);
+  //       const token = await result.user.getIdToken();
+  //       const sendSuccess = await sendTokenToBackend(token);
+  //       console.log('Token:', token);
+  //       if (sendSuccess) {
+  //         Swal.fire({
+  //           icon: "success",
+  //           title: "Token enviado exitosamente",
+  //           text: "¡Todo está listo!",
+  //         });
+  //       } else {
+  //         Swal.fire({
+  //           icon: "error",
+  //           title: "Error al enviar el token",
+  //           text: error,
+  //         });
+  //       }
+  //     } catch (error: unknown) {
+  //       if (error instanceof FirebaseError) {
+  //         if (error.code === 'auth/popup-closed-by-user') {
+  //           console.warn('La ventana emergente fue cerrada por el usuario.');
+  //           Swal.fire({
+  //             icon: "warning",
+  //             title: "Ventana cerrada",
+  //             text: "Has cerrado la ventana emergente antes de completar el inicio de sesión.",
+  //           });
+  //         } else {
+  //           console.error('Error de autenticación:', error);
+  //           Swal.fire({
+  //             icon: "error",
+  //             title: "Error de autenticación",
+  //             text: error.message,
+  //           });
+  //         }
+  //       } else {
+  //         console.error('Error desconocido:', error);
+  //         Swal.fire({
+  //           icon: "error",
+  //           title: "Error desconocido",
+  //           text: "Ha ocurrido un error inesperado.",
+  //         });
+  //       }
+  //     }
+  //   }
+  // };
       
   
 
@@ -209,10 +209,10 @@ const Login = () => {
           )}
         </Formik>
 
-        <button onClick={signInWithGoogle} className="flex items-center justify-center w-full border border-[#0a0a0a] text-[#0a0a0a] text-sm py-2 bg-[#f8f9fa] rounded-md hover:bg-[#efefe9] transition duration-300">
+        {/* <button onClick={signInWithGoogle} className="flex items-center justify-center w-full border border-[#0a0a0a] text-[#0a0a0a] text-sm py-2 bg-[#f8f9fa] rounded-md hover:bg-[#efefe9] transition duration-300">
           <Image src="https://i.postimg.cc/kX92B8Gx/images-Photoroom.png" alt="Google Logo" width={24} height={24} className="mr-2" />
           Inicia sesión con Google
-        </button>
+        </button> */}
 
         <div className="text-center mt-4">
           <p className="text-sm">
@@ -437,4 +437,4 @@ export default Login;
 //   );
 // };
 
-// export default Login;
+//  export default Login;

@@ -56,7 +56,12 @@ export const useAuth = (): UseAuthReturn => {
       }
 
       const token = data.token;
+      const user = data.user;
+      localStorage.setItem("user", JSON.stringify(user));
       setToken(token);
+      setUser(user);
+      console.log("Token guardado:", token);
+      console.log("Usuario guardado:", user);
       setSuccessMessage("Inicio de sesión exitoso!");
 
       Swal.fire({
