@@ -10,7 +10,7 @@ const AllUsers: React.FC = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch("http://localhost:3001/users/");
+        const response = await fetch("https://proyectochecasa.onrender.com/users/");
         if (!response.ok) {
           throw new Error('Error al cargar los usuarios');
         }

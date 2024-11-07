@@ -7,7 +7,7 @@ const AllReservations: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch(`http://localhost:3001/reservations/`)
+    fetch(`https://proyectochecasa.onrender.com/reservations/`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Error al obtener reservas");

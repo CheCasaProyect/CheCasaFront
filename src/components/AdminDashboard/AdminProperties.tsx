@@ -9,7 +9,7 @@ const AllProperties: React.FC<MyPropertiesProps> = () => {
   const [selectedProperty, setSelectedProperty] = useState<IPropiedad | null>(null);
 
   useEffect(() => {
-    const url = 'http://localhost:3001/properties/';
+    const url = 'https://proyectochecasa.onrender.com/properties/';
     const headers = {
       'Content-Type': 'application/json',
     };
