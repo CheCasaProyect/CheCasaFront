@@ -4,7 +4,7 @@ import DatePickerComponent from '@/components/Calendar';
 import PaymentButton from '@/components/PaymentButton';
 import IAccommodation from '../../../interfaces/Accomodation';
 import dynamic from 'next/dynamic';
-import { use } from 'react'; // Importa use de React
+import { use } from 'react'; 
 
 const Map = dynamic(() => import('../../map/cheMap'));
 
@@ -17,11 +17,11 @@ const AccommodationDetail = ({ params }: { params: Promise<Params> }) => {
   const [loading, setLoading] = useState(true);
   const [accommodation, setAccommodation] = useState<IAccommodation | null>(null);
 
-  const unwrappedParams = use(params); // Desenvuelve params aquí
+  const unwrappedParams = use(params); 
 
   useEffect(() => {
     const fetchAccommodation = async () => {
-      if (!unwrappedParams) return; // Asegúrate de que params esté disponible
+      if (!unwrappedParams) return; 
 
       try {
         const response = await fetch(`http://localhost:3001/properties/${unwrappedParams.id}`);
@@ -50,10 +50,14 @@ const AccommodationDetail = ({ params }: { params: Promise<Params> }) => {
       <h1 className="text-4xl font-bold text-gray-900 mb-4">{accommodation.title}</h1>
   
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-        <img src={accommodation.photos} alt={accommodation.title} className="col-span-2 sm:col-span-2 lg:col-span-3 rounded-lg object-cover" />
-        <img src={accommodation.photos} alt="secondary image" className="rounded-lg object-cover" />
-        <img src={accommodation.photos} alt="secondary image" className="rounded-lg object-cover" />
-        <img src={accommodation.photos} alt="secondary image" className="rounded-lg object-cover" />
+        {accommodation.photos.map((photos, index) => (
+          <img
+            key={index}
+            src={photos}
+            alt={`${accommodation.title} photo ${index + 1}`} // Corrección aquí
+            className="rounded-lg object-cover"
+          />
+        ))}
       </div>
   <div className="flex flex-col sm:flex-row justify-between items-center">
         <div>
