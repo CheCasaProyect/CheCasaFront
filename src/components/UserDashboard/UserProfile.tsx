@@ -1,8 +1,26 @@
-import React from "react";
-import useFetchUser from "../../hooks/useFetchUser";
+import React, { useEffect, useState } from "react";
+import IUser from "@/interfaces/Iuser";
 
 const UserProfile: React.FC = () => {
-  const { user, loading, error } = useFetchUser();
+  const [user, setUser] = useState<IUser | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+
+  useEffect(() => {
+    try {
+      const user = localStorage.getItem("user");
+      if (user) {
+        setUser(JSON.parse(user));
+      } else {
+        setError("No se encontró información de usuario.");
+      }
+    } catch (e) {
+      setError("Error al cargar la información del usuario.");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   return (
     <section className="bg-white p-6 rounded-md shadow-md mb-8 flex items-center space-x-6">
