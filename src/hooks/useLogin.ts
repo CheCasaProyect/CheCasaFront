@@ -125,11 +125,13 @@ export const useAuth = (): UseAuthReturn => {
     setSuccessMessage(null);
 
     try {
+
       const response = await fetch("https://proyectochecasa.onrender.com/auth/google", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`,
+
         },
         body: JSON.stringify({ token }),
       });
@@ -152,6 +154,5 @@ export const useAuth = (): UseAuthReturn => {
 
   return { login, loginWithGoogle, sendTokenToBackend, error, successMessage };
 };
-
 
 
