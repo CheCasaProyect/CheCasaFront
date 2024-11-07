@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import  {useAuthStore}  from '@/store/authStore';
 
 interface NavbarProps {
-  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
+  setSearchTerm?: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const Navbar: React.FC<NavbarProps> = ({ setSearchTerm }) => {
@@ -18,7 +18,9 @@ const Navbar: React.FC<NavbarProps> = ({ setSearchTerm }) => {
   }, [user]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
+    if(setSearchTerm){
+      setSearchTerm(e.target.value);
+    }
   };
 
   const handleLogout = () => {

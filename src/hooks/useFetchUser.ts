@@ -17,7 +17,7 @@ const useFetchUser = () => {
       console.log("Token:", token);
       console.log("Auth User ID:", authUser.id);
       try {
-        const response = await fetch(`https://proyectochecasa.onrender.com/users/${authUser.id}`, {
+        const response = await fetch(`http://localhost:3000/users/${authUser.id}`, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,

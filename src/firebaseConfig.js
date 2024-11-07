@@ -20,5 +20,5 @@ if (typeof window !== 'undefined') {
 
 export const auth = app ? getAuth(app) : null;
 export const provider = new GoogleAuthProvider();
-// const app = initializeApp(firebaseConfig);
+
 
