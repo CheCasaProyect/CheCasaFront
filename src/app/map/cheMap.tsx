@@ -4,8 +4,8 @@ import L from 'leaflet';
 import { useEffect } from 'react';
 
 interface MapProps {
-    latitude: any;
-    longitude: any;
+    latitude: number;
+    longitude: number;
 }
 
 L.Icon.Default.mergeOptions({
@@ -21,7 +21,7 @@ const Map: React.FC<MapProps> = ({ latitude, longitude }) => {
       const map = L.map("map").setView([latitude, longitude], 13);
 
       L.tileLayer(
-        "https://{s}.tile.openstreetmap.org/%7Bz%7D/%7Bx%7D/%7By%7D.png",
+        "https://{s}.tile.openstreetmap.de/%7Bz%7D/%7Bx%7D/%7By%7D.png",
         {
           attribution: "&copy; OpenStreetMap contributors",
         }

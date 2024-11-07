@@ -1,38 +1,36 @@
-"use client"
+"use client";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import {useAuthStore} from "@/store/authStore";
+import { useAuthStore } from "@/store/authStore";
 import { useRouter } from "next/navigation";
 
 interface LoginValues {
   email: string;
   password: string;
 }
+
 interface UseAuthReturn {
   login: (values: LoginValues) => Promise<void>;
+  loginWithGoogle: () => Promise<void>;
+  sendTokenToBackend: (token: string) => Promise<boolean>;
   error: string | null;
   successMessage: string | null;
 }
+
 export const useAuth = (): UseAuthReturn => {
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const { setToken, setUser } = useAuthStore();
+  const { setToken, setUser} = useAuthStore();
   const router = useRouter();
-// export const useAuth = (): { login: (values: any) => Promise<void>; } => {
-//   const [error, setError] = useState<string | null>(null);
-//   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-//   const { setToken, setUser } = useAuthStore();
-//   const router = useRouter();
-
 
   const login = async (values: LoginValues) => {
     setError(null);
     setSuccessMessage(null);
-    
+
     try {
       console.log("Enviando solicitud de login...");
 
-      const response = await fetch("http://localhost:3001/auth/login", {
+      const response = await fetch("http://localhost:3000/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -58,7 +56,6 @@ export const useAuth = (): UseAuthReturn => {
       }
 
       const token = data.token;
-      
       setToken(token);
       setSuccessMessage("Inicio de sesión exitoso!");
 
@@ -70,7 +67,7 @@ export const useAuth = (): UseAuthReturn => {
         timerProgressBar: true,
         willClose: () => {
           router.push("/profile");
-        }
+        },
       });
     } catch (error) {
       const message = error instanceof Error ? error.message : "Un error desconocido ocurrió.";
@@ -84,38 +81,69 @@ export const useAuth = (): UseAuthReturn => {
     }
   };
 
-  return { login,error, successMessage };
-};
-export const loginWithGoogle = async () => {
-  const router = useRouter(); 
-  try {
-    const response = await fetch("http://localhost:3001/auth/google", {
-      method: "POST",
-      credentials: "include", 
-    });
-    if (response.ok) {
-      console.log("Inicio de sesión con Google exitoso");
+  const loginWithGoogle = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/auth/google", {
+        method: "POST",
+        credentials: "include",
+      });
 
-      Swal.fire({
-        icon: "success",
-        title: "Inicio de sesión exitoso!",
-        text: "Serás redirigido al perfil.",
-        timer: 2000,
-        timerProgressBar: true,
-        willClose: () => {
-          router.push("/profile"); 
-        }
-      });
-    } else {
-      const errorData = await response.json();
-      console.error("Error en el inicio de sesión con Google:", errorData.message);
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: errorData.message || "No se pudo iniciar sesión con Google.",
-      });
+      if (response.ok) {
+        console.log("Inicio de sesión con Google exitoso");
+
+        Swal.fire({
+          icon: "success",
+          title: "Inicio de sesión exitoso!",
+          text: "Serás redirigido al perfil.",
+          timer: 2000,
+          timerProgressBar: true,
+          willClose: () => {
+            router.push("/profile");
+          },
+        });
+      } else {
+        const errorData = await response.json();
+        console.error("Error en el inicio de sesión con Google:", errorData.message);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: errorData.message || "No se pudo iniciar sesión con Google.",
+        });
+      }
+    } catch (error) {
+      console.error("Error al iniciar sesión con Google", error);
     }
-  } catch (error) {
-    console.error("Error al iniciar sesión con Google", error);
-  }
+  };
+
+  const sendTokenToBackend = async (token: string) => {
+    setError(null);
+    setSuccessMessage(null);
+
+    try {
+      const response = await fetch("http://localhost:3001/auth/google", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": 'Bearer ${token}',
+        },
+        body: JSON.stringify({ token }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Error al enviar el token al backend");
+      }
+
+      const data = await response.json();
+      setSuccessMessage("Token enviado exitosamente.");
+      console.log("Respuesta del backend:", data);
+      return true;
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Un error desconocido ocurrió.";
+      console.error("Error al enviar el token:", error);
+      setError(message);
+      return false;
+    }
+  };
+
+  return { login, loginWithGoogle, sendTokenToBackend, error, successMessage };
 };

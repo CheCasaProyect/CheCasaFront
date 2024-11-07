@@ -5,13 +5,15 @@ import React, { useEffect, useState } from "react";
 import Image from 'next/image';
 import Link from "next/link";
 import {useAuthStore} from "@/store/authStore";
-import { auth, provider } from "../../firebaseConfig";
+// import { auth, provider } from "../../firebaseConfig"
 import { getRedirectResult, signInWithPopup, signInWithRedirect } from "firebase/auth";
 import { useAuth } from "../../hooks/useLogin";
+import Swal from "sweetalert2";
+import { FirebaseError } from "firebase/app";
 
 
 const Login = () => {
-  const { login } = useAuth();
+  const { login, sendTokenToBackend} = useAuth();
   const { error, successMessage, resetForm } = useAuthStore();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -26,65 +28,118 @@ const Login = () => {
       .required("Email es obligatorio"),
     password: Yup.string()
       .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,15}$/,
+        /^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[!@#$%^&])[A-Za-z\d!@#$%^&]{8,15}$/,
         "Debe contener entre 8 y 15 caracteres, una mayúscula, una minúscula, un número y un carácter especial"
       )
       .required("Contraseña es obligatoria"),
   });
 
     const handleSubmit = async (values: typeof initialValues, { setSubmitting }: any) => {
-    await login(values);
-    setSubmitting(false);
-    if (successMessage) {
-      resetForm();
+      console.log("Formulario enviado con valores:", values);
+      await login(values);
+      console.log("Mensaje de éxito:", successMessage);
+      console.log("Mensaje de error:", error);
+      setSubmitting(false);
+      if (successMessage) {
+        resetForm();
     }
   };
-
-  const signInWithGoogle = () => {
-    if(auth){
-      signInWithRedirect(auth, provider)
-    }else {
-      console.error("Firebase auth es null")
-    }
-  };
-
-  const sendTokenToBackend = async (token: any) => {
-    try {
-      const response = await fetch('https://proyectochecasa.onrender.com/auth/google', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ token })
-      });
-      const data = await response.json();
-      console.log('Respuesta del backend:', data);
-    } catch (error) {
-      console.error('Error al enviar el token:', error);
-    }
-  };
+  // const signInWithGoogle = async (e: React.MouseEvent) => {
+  //   e.preventDefault();
+  //   if(auth){
+  //     try {
+  //       const result = await signInWithPopup(auth, provider);
+  //       const token = await result.user.getIdToken();
+  //       const sendSuccess = await sendTokenToBackend(token);
+  //       console.log('Token:', token);
+  //       if (sendSuccess) {
+  //         Swal.fire({
+  //           icon: "success",
+  //           title: "Token enviado exitosamente",
+  //           text: "¡Todo está listo!",
+  //         });
+  //       } else {
+  //         Swal.fire({
+  //           icon: "error",
+  //           title: "Error al enviar el token",
+  //           text: error,
+  //         });
+  //       }
+  //     } catch (error: unknown) {
+  //       if (error instanceof FirebaseError) {
+  //         if (error.code === 'auth/popup-closed-by-user') {
+  //           console.warn('La ventana emergente fue cerrada por el usuario.');
+  //           Swal.fire({
+  //             icon: "warning",
+  //             title: "Ventana cerrada",
+  //             text: "Has cerrado la ventana emergente antes de completar el inicio de sesión.",
+  //           });
+  //         } else {
+  //           console.error('Error de autenticación:', error);
+  //           Swal.fire({
+  //             icon: "error",
+  //             title: "Error de autenticación",
+  //             text: error.message,
+  //           });
+  //         }
+  //       } else {
+  //         console.error('Error desconocido:', error);
+  //         Swal.fire({
+  //           icon: "error",
+  //           title: "Error desconocido",
+  //           text: "Ha ocurrido un error inesperado.",
+  //         });
+  //       }
+  //     }
+  //   }
+  // };
+      
   
-  useEffect(() => {
-    const fetchRedirectResult = async () => {
-      if (auth){
-        try {
-          const result = await getRedirectResult(auth);
-          if (result) {
-            const token = await result.user.getIdToken();
-            await sendTokenToBackend(token); 
-            console.log('Token:', token);
-          }
-      }catch (error) {
-        console.error('Error de autenticación:', error);
-      }
-    }else{
-      console.error("Firebase auth es null")
-    };
-  }
-    fetchRedirectResult();
-  }, []);
 
+  // const signInWithGoogle = () => {
+  //   console.log("Auth:", auth);
+  //   console.log("Provider:", provider);
+  //   if(auth){
+  //     signInWithPopup(auth, provider)
+  //   }else {
+  //     console.error("Firebase auth es null")
+  //   }
+  // };
+  // useEffect(() => {
+  //   const fetchRedirectResult = async () => {
+  //     if (auth) {
+  //       try {
+  //         const result = await getRedirectResult(auth);
+  //         console.log("Resultado de redirección:", result);
+  //         if (result) {
+  //           const token = await result.user.getIdToken();
+  //           console.log("Token recibido:", token);
+  //           const sendSuccess = await sendTokenToBackend(token); 
+  //           console.log("¿Token enviado con éxito?:", sendSuccess);
+  //           if (sendSuccess) {
+  //             Swal.fire({
+  //               icon: "success",
+  //               title: "Token enviado exitosamente",
+  //               text: "¡Todo está listo!",
+  //             });
+  //           } else {
+  //             Swal.fire({
+  //               icon: "error",
+  //               title: "Error al enviar el token",
+  //               text: error,
+  //             });
+  //           }
+  //         }
+  //       } catch (error) {
+  //         console.error('Error de autenticación:', error);
+  //       }
+  //     } else {
+  //       console.error("Firebase auth es null");
+  //     }
+  //   };
+
+  //   fetchRedirectResult();
+  // }, [auth, sendTokenToBackend])
 
   return (
     <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen bg-[#fffefe] text-[#0a0a0a] pt-20 lg:pt-40 pb-20">
@@ -154,10 +209,10 @@ const Login = () => {
           )}
         </Formik>
 
-        <button onClick={signInWithGoogle} className="flex items-center justify-center w-full border border-[#0a0a0a] text-[#0a0a0a] text-sm py-2 bg-[#f8f9fa] rounded-md hover:bg-[#efefe9] transition duration-300">
+        {/* <button onClick={signInWithGoogle} className="flex items-center justify-center w-full border border-[#0a0a0a] text-[#0a0a0a] text-sm py-2 bg-[#f8f9fa] rounded-md hover:bg-[#efefe9] transition duration-300">
           <Image src="https://i.postimg.cc/kX92B8Gx/images-Photoroom.png" alt="Google Logo" width={24} height={24} className="mr-2" />
           Inicia sesión con Google
-        </button>
+        </button> */}
 
         <div className="text-center mt-4">
           <p className="text-sm">
@@ -180,4 +235,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Login;

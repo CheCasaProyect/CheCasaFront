@@ -38,7 +38,7 @@ export const useAuthStore = create<IAuthState>((set) => {
       }),
     loginUser: async (email: string, password: string) => {
       try {
-        const response = await fetch("https://proyectochecasa.onrender.com/login", {
+        const response = await fetch("http://localhost:3001/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
